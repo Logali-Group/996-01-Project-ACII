@@ -1,0 +1,112 @@
+managed implementation in class zbp_r_dt_inct_lgl unique;
+strict ( 2 );
+with draft;
+
+define behavior for zr_dt_inct_lgl alias Incident
+persistent table zdt_inct_lgl
+draft table zdt_d_inct_lgl
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global, instance )
+
+{
+  create;
+  update;
+  delete;
+
+  association _History { create ( features : instance ); with draft; }
+
+  field ( readonly )
+  IncUUID,
+  IncidentID,
+  Status,
+  ChangedDate,
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  field ( numbering : managed )
+  IncUUID;
+
+  field (mandatory)
+   title,
+   Description,
+   Priority;
+
+  action ( features : instance, authorization : update ) changeStatus
+    parameter zdd_change_status_param_lgl result [1] $self;
+
+  side effects { action changeStatus affects $self; }
+
+  internal action setHistory;
+
+  determination setDefaultHistory on save { create; }
+
+  determination setDefaultValues on modify { create; }
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zdt_inct_lgl
+    {
+      IncUUID            = inc_uuid;
+      IncidentID         = incident_id;
+      Title              = title;
+      Description        = description;
+      Status             = status;
+      Priority           = priority;
+      CreationDate       = creation_date;
+      ChangedDate        = changed_date;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}
+
+define behavior for zdd_inct_h_lgl alias History
+implementation in class zbp_dd_inct_h_lgl unique
+persistent table zdt_inct_h_lgl
+draft table zdt_d_inct_h_lgl
+lock dependent by _Incident
+authorization dependent by _Incident
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  association _Incident { with draft; }
+
+  field ( numbering : managed )
+  HisUUID;
+
+  field ( readonly )
+  HisUUID,
+  IncUUID,
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  mapping for zdt_inct_h_lgl
+    {
+      HisUUID            = his_uuid;
+      IncUUID            = inc_uuid;
+      HisID              = his_id;
+      PreviousStatus     = previous_status;
+      NewStatus          = new_status;
+      Text               = text;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}

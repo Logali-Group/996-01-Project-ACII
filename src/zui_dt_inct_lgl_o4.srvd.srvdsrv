@@ -1,0 +1,13 @@
+@EndUserText: {
+  label: 'Service Definition Incidents'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_DT_INCT_LGL'
+  }
+}
+define service zui_dt_inct_lgl_o4
+  provider contracts odata_v4_ui {
+  expose zc_dt_inct_lgl   as Incidents;
+  expose zc_dt_inct_h_lgl as History;
+}

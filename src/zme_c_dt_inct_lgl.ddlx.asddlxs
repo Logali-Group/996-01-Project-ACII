@@ -1,0 +1,131 @@
+@Metadata.layer: #CORE
+@UI: { headerInfo: { typeName:       'Incident',
+                     typeNamePlural: 'Incidents',
+                     title:          { type: #STANDARD,
+                                       label: 'Incidents',
+                                       value: 'IncidentID' } },
+             presentationVariant: [{ sortOrder: [{ by: 'IncidentID',
+                                          direction: #ASC }],
+                              visualizations: [{ type: #AS_LINEITEM }] }] }
+annotate view zc_dt_inct_lgl with
+{
+  @EndUserText.label: 'IncUUID'
+  @UI.facet: [{ id:            'Incident',
+                purpose:       #STANDARD,
+                type:          #IDENTIFICATION_REFERENCE,
+                label:         'Incident',
+                position:      10 },
+              { id:            'History',
+                purpose:       #STANDARD,
+                type:          #LINEITEM_REFERENCE,
+                label:         'History',
+                position:      20,
+                targetElement: '_History'}]
+  @UI.hidden: true
+  @UI: {lineItem: [{ position: 10,
+               importance: #HIGH,
+               label: 'IncUUID'},
+               { type: #FOR_ACTION,
+                 dataAction: 'changeStatus',
+                 label: 'Change Status',
+                 position: 10 }],
+  identification: [{ position: 10,
+                     label: 'IncUUID' },
+               { type: #FOR_ACTION,
+                 dataAction: 'changeStatus',
+                 label: 'Change Status',
+                 position: 10 } ],
+  selectionField: [{ position: 10 }]}
+  IncUUID;
+
+  @UI: {lineItem: [{ position: 20,
+               importance: #MEDIUM }],
+  identification: [{ position: 20  } ],
+  selectionField: [{ position: 20 }]}
+  IncidentID;
+
+  @UI: {lineItem: [{ position: 30,
+               importance: #LOW }],
+  identification: [{ position: 30  } ] }
+//  selectionField: [{ position: 30 }]
+//  @UI.hidden: true
+  Title;
+
+  @UI: {lineItem: [{ position: 40,
+               importance: #LOW }],
+  identification: [{ position: 40  } ],
+  selectionField: [{ position: 40 }]}
+  Description;
+
+  @Consumption.valueHelpDefinition: [ {
+    entity.name: 'zdd_status_vh_lgl',
+    entity.element: 'StatusCode',
+    useForValidation: true
+  } ]
+  @UI: {lineItem: [{ position: 50,
+               importance: #LOW }],
+  identification: [{ position: 50  } ],
+  selectionField: [{ position: 50 }]}
+  Status;
+
+  @Consumption.valueHelpDefinition: [ {
+    entity.name: 'zdd_priority_vh_lgl',
+    entity.element: 'PriorityCode',
+    useForValidation: true
+  } ]
+  @UI: {lineItem: [{ position: 60,
+               importance: #LOW }],
+  identification: [{ position: 60  } ],
+  selectionField: [{ position: 60 }]}
+  Priority;
+
+  @UI: {lineItem: [{ position: 70,
+               importance: #LOW }],
+  identification: [{ position: 70  } ],
+  selectionField: [{ position: 70 }]}
+  CreationDate;
+
+  @UI: {lineItem: [{ position: 80,
+               importance: #LOW }],
+  identification: [{ position: 80  } ],
+  selectionField: [{ position: 80 }]}
+  ChangedDate;
+
+  @UI: {lineItem: [{ position: 90,
+               importance: #LOW }],
+  identification: [{ position: 90  } ],
+  selectionField: [{ position: 90 }]}
+  @UI.hidden: true
+  LocalCreatedBy;
+
+  @UI: {lineItem: [{ position: 100,
+               importance: #LOW }],
+  identification: [{ position: 100  } ],
+  selectionField: [{ position: 100 }]}
+  @UI.hidden: true
+  LocalCreatedAt;
+
+  @UI: {lineItem: [{ position: 100,
+               importance: #LOW }],
+  identification: [{ position: 110  } ],
+  selectionField: [{ position: 110 }]}
+  @UI.hidden: true
+  LocalLastChangedBy;
+
+  @UI: {lineItem: [{ position: 120,
+               importance: #LOW }],
+  identification: [{ position: 120  } ],
+  selectionField: [{ position: 120 }]}
+  @UI.hidden: true
+  LocalLastChangedAt;
+
+  @UI: {lineItem: [{ position: 130,
+               importance: #LOW }],
+  identification: [{ position: 130  } ],
+  selectionField: [{ position: 130 }]}
+  @UI.hidden: true
+  LastChangedAt;
+ 
+   @UI.hidden: true 
+  _History;
+}
